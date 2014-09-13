@@ -75,7 +75,7 @@ helpers do
     elsif calculate_total(player_cards) == 21
       @show_hit_or_stand_buttons = false
       @success = "You have blackjack! You win! <a href='/bet'>Play again?</a>"
-       session[:bank_roll] = session[:bank_roll] + (session[:bet_amount].to_i * 1.5)
+       session[:bank_roll] = session[:bank_roll] + (session[:bet_amount].to_i * 1.50)
     elsif calculate_total(dealer_cards) == 21
       @show_hit_or_stand_buttons = false
       @error = "Dealer has blackjack. You lose! <a href='/bet'>Play again?</a>"
@@ -114,11 +114,17 @@ helpers do
     if calculate_total(dealer_cards) > calculate_total(player_cards)
       @error = "The dealer has #{calculate_total(dealer_cards)}. You have #{calculate_total(player_cards)}. You lose. <a href='/bet'>Play again?</a>"
       session[:bank_roll] -= session[:bet_amount].to_i
-    elsif calculate_total(session[dealer_cards]) < calculate_total(session[player_cards])
+    elsif calculate_total(dealer_cards) < calculate_total(player_cards)
       @success = "The dealer has #{calculate_total(dealer_cards)}. You have #{calculate_total(player_cards)}. You win! <a href='/bet'>Play again?</a>"
       session[:bank_roll] += session[:bet_amount].to_i
     else
       @info = "The dealer has #{calculate_total(dealer_cards)}. You have #{calculate_total(player_cards)}. It's a tie. <a href='/bet'>Play again?</a>"
+    end
+  end
+
+  def bank_check(amount)
+    if amount == 0
+      @error = "You are out of money <a href='/new_player'>Play again?</a>"
     end
   end
 
@@ -146,8 +152,14 @@ post '/set_name' do
 end
 
 get '/bet' do
+  @show_bet_form = true
+
   if session[:bet_amount] != nil
     session[:bank_roll]
+    if session[:bank_roll] == 0
+      @error = "You are out of money <a href='/new_player'>Start Over?</a>"
+      @show_bet_form = false
+    end
   else
     session[:bank_roll] = 500
   end
@@ -155,7 +167,9 @@ get '/bet' do
 end
 
 post '/set_bet' do
+  @show_bet_form = true
   check_bet(params[:bet_amount])
+
   erb :bet
 end
 
