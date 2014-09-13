@@ -58,7 +58,9 @@ helpers do
   end
 
   def check_bet(amount)
-    if /[a-zA-Z\W]/.match(amount)
+    if /[\-]/.match(amount)
+      @error = "Bet must be greater than 0."
+    elsif /[a-zA-Z\W]/.match(amount)
       @error = "Enter numbers only."
     elsif amount.to_i > session[:bank_roll]
       @error = "Bet must be less than or equal to #{session[:bank_roll]}."

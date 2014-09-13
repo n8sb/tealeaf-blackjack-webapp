@@ -10,6 +10,16 @@ h5 {
   background: #EEE;
 }
 
+.nav li:first-child{
+  float: left;
+  padding-left: 10px;
+}
+
+.nav li:last-child{
+  float: right;
+  padding-right: 10px;
+}
+
 .cards {
   float: left;
   padding-right: 5px;
