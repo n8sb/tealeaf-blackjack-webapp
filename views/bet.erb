@@ -1,0 +1,13 @@
+<div class="">
+  <h5>Hi <%= session[:player_name]%>. Please enter your bet</h5>
+  <h5>You currently have $<%= session[:bank_roll]%> in the bank.</h5>
+</div>
+
+<form class="form-horizontal" role="form" action="/set_bet" method="post">
+  <div class="form-group">
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="inputBet" placeholder="Bet Amount" name="bet_amount">
+    </div>
+    <input type="submit" class="btn btn-primary" >
+  </div>
+</form>

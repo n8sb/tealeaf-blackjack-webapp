@@ -1,0 +1,92 @@
+body {
+  padding-bottom: 100px;
+}
+
+h5 {
+  padding-bottom: 10px;
+}
+
+.nav {
+  background: #EEE;
+}
+
+.cards {
+  float: left;
+  padding-right: 5px;
+}
+
+.well.green {
+  background-image: linear-gradient(to bottom,#008000 0,#008000 100%);
+  color: #fff;
+}
+
+.dealer-button {
+  clear: both;
+}
+
+.player {
+  clear: both;
+  overflow: auto;
+}
+
+.card-total {
+  clear: both;
+  padding-top: 20px;
+}
+
+input[type="submit"] {
+  margin-bottom: 5px;
+}
+
+#hit-form {
+  float: left;
+  padding-right: 5px;
+}
+
+#stand-form {
+  float: left;
+}
+
+.fade-in {
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    -o-animation: fadein 2s; /* Opera */
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
+
+/*Clearfix*/
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
