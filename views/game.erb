@@ -17,15 +17,14 @@
   <% end %>
 
   <div class="dealer-button">
+
     <% if @show_dealer_button %>
-      <% if calculate_total(session[:dealer_cards]) <= 16 %>
       <br />
         <form id="dealer-hit-form" action="/game/dealer/draw" method="post">
           <input type="submit" class="btn btn-primary" value="Click to see the dealers next card">
         </form>
-
-      <% end %>
     <% end %>
+  
   </div>
 </div>
 
