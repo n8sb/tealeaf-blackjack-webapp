@@ -1,58 +1,58 @@
-
-<div class="well green dealer cf">
-  <h4>Dealer's Cards:</h4>
-  
-  <br />
-  <% if (session[:dealer_cards].size == 2 && calculate_total(session[:dealer_cards]) == 21) || session[:player_cards].size == 2 && calculate_total(session[:player_cards]) == 21 || @show_dealers_cards %>
-    <div class="cards"><%= display_card(session[:dealer_cards][0]) %></div>
-  <% else %>
-    <div class="cards"><img src="/images/cards/cover.JPG"></div>
-  <% end %>
-
-  <div class="cards"><%= display_card(session[:dealer_cards][1]) %></div> 
- 
-  <% if @dealer_draw %>
-    <div class="cards"><%= display_card(session[:dealer_cards][-1]) %></div>
-    <h4 class="card-total">Dealer has a total of: <%= calculate_total(session[:dealer_cards]) %></h4>
-  <% end %>
-
-  <div class="dealer-button">
-
-    <% if @show_dealer_button %>
-      <br />
-        <form id="dealer-hit-form" action="/game/dealer/draw" method="post">
-          <input type="submit" class="btn btn-primary" value="Click to see the dealers next card">
-        </form>
+<div id="game">
+  <div class="well green dealer cf">
+    <h4>Dealer's Cards:</h4>
+    
+    <br />
+    <% if (session[:dealer_cards].size == 2 && calculate_total(session[:dealer_cards]) == 21) || session[:player_cards].size == 2 && calculate_total(session[:player_cards]) == 21 || @show_dealers_cards %>
+      <div class="cards"><%= display_card(session[:dealer_cards][0]) %></div>
+    <% else %>
+      <div class="cards"><img src="/images/cards/cover.JPG"></div>
     <% end %>
-  
+
+    <div class="cards"><%= display_card(session[:dealer_cards][1]) %></div> 
+   
+    <% if @dealer_draw %>
+      <div class="cards"><%= display_card(session[:dealer_cards][-1]) %></div>
+      <h4 class="card-total">Dealer has a total of: <%= calculate_total(session[:dealer_cards]) %></h4>
+    <% end %>
+
+    <div class="dealer-button">
+
+      <% if @show_dealer_button %>
+        <br />
+          <form id="dealer-hit-form" action="/game/dealer/draw" method="post">
+            <input type="submit" class="btn btn-primary" value="Click to see the dealers next card">
+          </form>
+      <% end %>
+    
+    </div>
+  </div>
+
+  <br />
+
+  <div class="well green player cf">
+
+   <h4 class="player-name"><%= session[:player_name]%>'s Cards:</h4>
+   <br />
+    <% session[:player_cards].each do |card| %>
+      <div class="cards"><%= display_card(card) %></div>
+    <% end %>
+
+    <h4 class="card-total">You have a total of: <%= calculate_total(session[:player_cards]) %></h4>
+    <h4>Your bet is: <%= session[:bet_amount] %></h4>
+    <h4>Your bank roll is: <%= session[:bank_roll] %></h4>
+
+  <div class="player-buttons">
+    <% if @show_hit_or_stand_buttons %>
+    <form id="hit-form" action="/game/player/hit" method="post">
+        <input type="submit" class="btn btn-success" value="Hit">
+    </form>
+
+    <form id="stand-form" action="/game/player/stand" method="post">
+        <input type="submit" class="btn btn-warning" value="Stand">
+    </form>
+  <% end %>
+  </div>
+
   </div>
 </div>
-
-<br />
-
-<div class="well green player cf">
-
- <h4 class="player-name"><%= session[:player_name]%>'s Cards:</h4>
- <br />
-  <% session[:player_cards].each do |card| %>
-    <div class="cards"><%= display_card(card) %></div>
-  <% end %>
-
-  <h4 class="card-total">You have a total of: <%= calculate_total(session[:player_cards]) %></h4>
-  <h4>Your bet is: <%= session[:bet_amount] %></h4>
-  <h4>Your bank roll is: <%= session[:bank_roll] %></h4>
-
-<div class="player-buttons">
-  <% if @show_hit_or_stand_buttons %>
-  <form id="hit-form" action="/game/player/hit" method="post">
-      <input type="submit" class="btn btn-success" value="Hit">
-  </form>
-
-  <form id="stand-form" action="/game/player/stand" method="post">
-      <input type="submit" class="btn btn-warning" value="Stand">
-  </form>
-<% end %>
-</div>
-
-</div>
-

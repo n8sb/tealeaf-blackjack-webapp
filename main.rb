@@ -58,7 +58,7 @@ helpers do
   end
 
   def check_bet(amount)
-    if /[\-]/.match(amount)
+    if /^\-/.match(amount)
       @error = "Bet must be greater than 0."
     elsif /[a-zA-Z\W]/.match(amount)
       @error = "Enter numbers only."
