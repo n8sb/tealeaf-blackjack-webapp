@@ -106,7 +106,7 @@ helpers do
       @success = "Dealer busted. You win! <a href='/bet'>Play again?</a>"
       session[:bank_roll] += session[:bet_amount].to_i
     elsif calculate_total(dealer_cards) >= 17
-      redirect "/compare"
+      redirect "/game/compare"
     else
       redirect "/game/dealer"
     end
@@ -218,7 +218,7 @@ get "/game/dealer" do
   if calculate_total(session[:dealer_cards]) <= 16
     @show_dealer_button = true
   else
-    redirect "/compare"
+    redirect "/game/compare"
   end
 
   erb :game
@@ -237,7 +237,7 @@ post "/game/dealer/draw" do
   erb :game
 end
 
-get "/compare" do
+get "game/compare" do
   @show_hit_or_stand_buttons = false
   @show_dealers_cards = true
 
