@@ -6,7 +6,7 @@
     <% if (session[:dealer_cards].size == 2 && calculate_total(session[:dealer_cards]) == 21) || session[:player_cards].size == 2 && calculate_total(session[:player_cards]) == 21 || @show_dealers_cards %>
       <div class="cards"><%= display_card(session[:dealer_cards][0]) %></div>
     <% else %>
-      <div class="cards"><img src="/images/cards/cover.JPG"></div>
+      <div class="cards"><img src="/images/cards/cover.jpg"></div>
     <% end %>
 
     <div class="cards"><%= display_card(session[:dealer_cards][1]) %></div> 
