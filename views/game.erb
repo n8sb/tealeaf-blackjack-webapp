@@ -1,4 +1,17 @@
 <div id="game">
+
+  <%if @loser %>
+    <div class="alert alert-danger" role="alert"><%= @loser %></div>
+  <% end %>
+  <%if @winner %>
+    <div class="alert alert-success" role="alert"><%= @winner %></div>
+  <% end %>
+  <%if @tie %>
+    <div class="alert alert-info" role="alert"><%= @tie %></div>
+  <% end %>
+  <%if @info %>
+    <div class="alert alert-info" role="alert"><%= @info %></div>
+  <% end %>
   <div class="well green dealer cf">
     <h4>Dealer's Cards:</h4>
     
@@ -20,7 +33,7 @@
 
       <% if @show_dealer_button %>
         <br />
-          <form id="dealer-hit-form" action="/game/dealer/draw" method="post">
+          <form id="dealer-hit-form">
             <input type="submit" class="btn btn-primary" value="Click to see the dealers next card">
           </form>
       <% end %>
@@ -44,11 +57,11 @@
 
   <div class="player-buttons">
     <% if @show_hit_or_stand_buttons %>
-    <form id="hit-form" action="/game/player/hit" method="post">
+    <form id="hit-form">
         <input type="submit" class="btn btn-success" value="Hit">
     </form>
 
-    <form id="stand-form" action="/game/player/stand" method="post">
+    <form id="stand-form">
         <input type="submit" class="btn btn-warning" value="Stand">
     </form>
   <% end %>

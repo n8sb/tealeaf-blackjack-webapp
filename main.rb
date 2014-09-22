@@ -73,14 +73,14 @@ helpers do
   def initial_hand_check(dealer_cards, player_cards)
     if calculate_total(dealer_cards) == 21 && calculate_total(player_cards) == 21
       @show_hit_or_stand_buttons = false
-      @info = "You and the dealer have 21. It's a tie! <a href='/bet'>Play again?</a>"
+      @tie = "You and the dealer have 21. It's a tie! <a href='/bet'>Play again?</a>"
     elsif calculate_total(player_cards) == 21
       @show_hit_or_stand_buttons = false
-      @success = "You have blackjack! You win! <a href='/bet'>Play again?</a>"
+      @winner = "You have blackjack! You win! <a href='/bet'>Play again?</a>"
        session[:bank_roll] = session[:bank_roll] + (session[:bet_amount].to_i * 1.50)
     elsif calculate_total(dealer_cards) == 21
       @show_hit_or_stand_buttons = false
-      @error = "Dealer has blackjack. You lose! <a href='/bet'>Play again?</a>"
+      @loser = "Dealer has blackjack. You lose! <a href='/bet'>Play again?</a>"
       session[:bank_roll] -= session[:bet_amount].to_i
     else
       @info = "Would you like to Hit or Stand, #{session[:player_name]}?"
@@ -90,20 +90,23 @@ helpers do
   def check_player_hand(player_cards)
     if calculate_total(player_cards) > 21
       @show_hit_or_stand_buttons = false
-      @error = "Oops! You busted! <a href='/bet'>Play again?</a>"
+      @loser = "Oops! You busted! <a href='/bet'>Play again?</a>"
       session[:bank_roll] -= session[:bet_amount].to_i
+      erb :game, layout: false
     elsif calculate_total(player_cards) == 21
       @show_hit_or_stand_buttons = false
-      @info = "You have 21. Dealer's turn to draw."
+      @tie = "You have 21. Dealer's turn to draw."
       redirect "/game/dealer"
+      halt erb(:game)
      else
       @info = "Would you like to Hit or Stand, #{session[:player_name]}?"
     end
+  
   end
 
   def check_dealer_hand(dealer_cards)
     if calculate_total(dealer_cards) > 21
-      @success = "Dealer busted. You win! <a href='/bet'>Play again?</a>"
+      @winner = "Dealer busted. You win! <a href='/bet'>Play again?</a>"
       session[:bank_roll] += session[:bet_amount].to_i
     elsif calculate_total(dealer_cards) >= 17
       redirect "/game/compare"
@@ -114,13 +117,13 @@ helpers do
 
   def final_hand_check(dealer_cards, player_cards)
     if calculate_total(dealer_cards) > calculate_total(player_cards)
-      @error = "The dealer has #{calculate_total(dealer_cards)}. You have #{calculate_total(player_cards)}. You lose. <a href='/bet'>Play again?</a>"
+      @loser = "The dealer has #{calculate_total(dealer_cards)}. You have #{calculate_total(player_cards)}. You lose. <a href='/bet'>Play again?</a>"
       session[:bank_roll] -= session[:bet_amount].to_i
     elsif calculate_total(dealer_cards) < calculate_total(player_cards)
-      @success = "The dealer has #{calculate_total(dealer_cards)}. You have #{calculate_total(player_cards)}. You win! <a href='/bet'>Play again?</a>"
+      @winner = "The dealer has #{calculate_total(dealer_cards)}. You have #{calculate_total(player_cards)}. You win! <a href='/bet'>Play again?</a>"
       session[:bank_roll] += session[:bet_amount].to_i
     else
-      @info = "The dealer has #{calculate_total(dealer_cards)}. You have #{calculate_total(player_cards)}. It's a tie. <a href='/bet'>Play again?</a>"
+      @tie = "The dealer has #{calculate_total(dealer_cards)}. You have #{calculate_total(player_cards)}. It's a tie. <a href='/bet'>Play again?</a>"
     end
   end
 
@@ -202,8 +205,8 @@ post "/game/player/hit" do
   session[:player_cards] << session[:deck].pop
 
   check_player_hand(session[:player_cards])
-  
-  erb :game
+
+  erb :game, layout: false
 end
 
 post "/game/player/stand" do
@@ -211,7 +214,7 @@ post "/game/player/stand" do
 end
 
 get "/game/dealer" do
-  @success = "You are standing with #{calculate_total(session[:player_cards])}."
+  @info = "You are standing with #{calculate_total(session[:player_cards])}."
   @show_hit_or_stand_buttons = false
   @show_dealers_cards = true
 
@@ -221,10 +224,10 @@ get "/game/dealer" do
     redirect "/game/compare"
   end
 
-  erb :game
+  erb :game, layout: false
 end
 
-post "/game/dealer/draw" do
+post "/game/dealer/hit" do
   @show_dealers_cards = true
   @show_hit_or_stand_buttons = false
 
@@ -234,10 +237,10 @@ post "/game/dealer/draw" do
 
   check_dealer_hand(session[:dealer_cards])
 
-  erb :game
+  erb :game, layout: false
 end
 
-get "game/compare" do
+get "/game/compare" do
   @show_hit_or_stand_buttons = false
   @show_dealers_cards = true
 
@@ -247,5 +250,5 @@ get "game/compare" do
 
   final_hand_check(session[:dealer_cards], session[:player_cards])
 
-  erb :game 
+  erb :game, layout: false
 end
